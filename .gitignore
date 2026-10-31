@@ -1,0 +1,14 @@
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Screen recordings of the app (kept on your machine, not in the repo)
+recordings/
+*.mp4
+*.mov
+*.webm
+
+# Tool folders that should stay local
+.claude/

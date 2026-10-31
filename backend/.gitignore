@@ -1,0 +1,19 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables (your API keys live here — never commit it!)
+.env
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
