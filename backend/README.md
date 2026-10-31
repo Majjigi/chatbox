@@ -10,11 +10,18 @@ backend/
 │   ├── main.py              # Creates the FastAPI app and plugs in the routes
 │   ├── core/
 │   │   └── config.py        # Settings loaded from env / .env
+│   ├── schemas/
+│   │   └── chat.py          # Shapes of requests, responses and stream events
+│   ├── providers/           # One class per AI service, all with the same method
+│   │   ├── base.py          # ChatProvider: the common template
+│   │   ├── demo_provider.py # Offline pretend model (no API key needed)
+│   │   └── registry.py      # The list of models + "give me the provider for X"
 │   └── api/
 │       └── routes/
-│           └── health.py    # GET /api/health
+│           ├── health.py    # GET  /api/health
+│           ├── models.py    # GET  /api/models
+│           └── chat.py      # POST /api/chat/stream  (streams the reply)
 ├── tests/
-│   └── test_health.py
 ├── requirements.txt         # Packages the app needs
 ├── requirements-dev.txt     # + packages for testing
 └── .env.example             # Sample settings — copy to .env
@@ -56,6 +63,40 @@ uvicorn app.main:app --reload --reload-dir app
 
 `--reload` restarts the server when you save a file. Changes to `.env` need a manual restart
 (`Ctrl+C`, then run the command again).
+
+## API endpoints
+
+| Method | URL                | What it does                                            |
+| ------ | ------------------ | ------------------------------------------------------- |
+| `GET`  | `/api/health`      | Check the server is running                             |
+| `GET`  | `/api/models`      | List the models for the dropdown (and which are usable) |
+| `POST` | `/api/chat/stream` | Send the conversation, get the reply as a live stream   |
+
+`POST /api/chat/stream` body:
+
+```json
+{
+  "model": "demo",
+  "system_prompt": "You are a helpful assistant.",
+  "messages": [
+    { "role": "user", "content": "Hi!" },
+    { "role": "assistant", "content": "Hello! How can I help?" },
+    { "role": "user", "content": "Tell me a joke." }
+  ]
+}
+```
+
+The response is a stream of [Server-Sent Events](../docs/phases/phase-2-streaming-demo-model.md):
+many `token` events, then one `done` event with the token counts and timings (or an `error`
+event if something fails).
+
+Try it from a terminal (`-N` shows events as they arrive):
+
+```bash
+curl -N -X POST http://localhost:8000/api/chat/stream \
+  -H "Content-Type: application/json" \
+  -d '{"model": "demo", "messages": [{"role": "user", "content": "Hi!"}]}'
+```
 
 ## Run the tests
 

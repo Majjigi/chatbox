@@ -23,7 +23,7 @@ git checkout main      # back to the finished app
 | Phase | What gets built | Status |
 | ----- | --------------- | ------ |
 | [1](docs/phases/phase-1-backend-foundation.md) | Backend foundation: FastAPI app, settings, CORS, health check | ✅ |
-| 2 | Streaming endpoint with an offline demo model | ⏳ |
+| [2](docs/phases/phase-2-streaming-demo-model.md) | Streaming endpoint with an offline demo model | ✅ |
 | 3 | Real AI models: Gemini and Claude | ⏳ |
 | 4 | Angular chat screen: bubbles, text box, live streaming | ⏳ |
 | 5 | Model dropdown and system prompt box | ⏳ |

@@ -9,7 +9,7 @@ Entry point of the backend. Run it with:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health
+from app.api.routes import chat, health, models
 from app.core.config import settings
 
 app = FastAPI(title=settings.app_name, version=settings.version)
@@ -26,3 +26,5 @@ app.add_middleware(
 
 # Plug each group of routes into the app, all under /api.
 app.include_router(health.router, prefix=settings.api_prefix)
+app.include_router(models.router, prefix=settings.api_prefix)
+app.include_router(chat.router, prefix=settings.api_prefix)
