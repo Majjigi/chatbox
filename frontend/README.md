@@ -48,6 +48,9 @@ Start the [backend](../backend/README.md) first, then:
 npm start
 ```
 
+> **Windows:** if PowerShell says `npm.ps1 cannot be loaded because running scripts is disabled`,
+> type `npm.cmd start` (and `npm.cmd install`, `npm.cmd test`) instead — same command, no script.
+
 Open http://localhost:4200. The app expects the API at `http://localhost:8000/api`
 (set in `src/environments/environment.development.ts`).
 
