@@ -7,26 +7,26 @@ A Python API built with [FastAPI](https://fastapi.tiangolo.com/).
 ```
 backend/
 ├── app/
-│   ├── main.py              # Creates the FastAPI app and plugs in the routes
+│   ├── main.py                  # Creates the FastAPI app and plugs in the routes
 │   ├── core/
-│   │   └── config.py        # Settings loaded from env / .env
+│   │   └── config.py            # Settings loaded from env / .env
 │   ├── schemas/
-│   │   └── chat.py          # Shapes of requests, responses and stream events
-│   ├── providers/           # One class per AI service, all with the same method
-│   │   ├── base.py          # ChatProvider: the common template
-│   │   ├── gemini_provider.py # Google Gemini (google-genai SDK)
-│   │   ├── claude_provider.py # Anthropic Claude (anthropic SDK)
-│   │   ├── demo_provider.py # Offline pretend model (no API key needed)
-│   │   └── registry.py      # The list of models + "give me the provider for X"
+│   │   └── chat.py              # Shapes of requests, responses and stream events
+│   ├── providers/               # One class per AI service, all with the same method
+│   │   ├── base.py              # ChatProvider: the common template
+│   │   ├── gemini_provider.py   # Google Gemini (google-genai SDK)
+│   │   ├── claude_provider.py   # Anthropic Claude (anthropic SDK)
+│   │   ├── demo_provider.py     # Offline pretend model (no API key needed)
+│   │   └── registry.py          # The list of models + "give me the provider for X"
 │   └── api/
 │       └── routes/
-│           ├── health.py    # GET  /api/health
-│           ├── models.py    # GET  /api/models
-│           └── chat.py      # POST /api/chat/stream  (streams the reply)
-├── tests/
-├── requirements.txt         # Packages the app needs
-├── requirements-dev.txt     # + packages for testing
-└── .env.example             # Sample settings — copy to .env
+│           ├── health.py        # GET  /api/health
+│           ├── models.py        # GET  /api/models
+│           └── chat.py          # POST /api/chat/stream  (streams the reply)
+├── tests/                       # pytest tests — no real API calls
+├── requirements.txt             # Packages the app needs
+├── requirements-dev.txt         # + packages for testing
+└── .env.example                 # Sample settings — copy to .env
 ```
 
 ## Setup
@@ -78,6 +78,10 @@ uvicorn app.main:app --reload --reload-dir app
 
 `--reload` restarts the server when you save a file. Changes to `.env` need a manual restart
 (`Ctrl+C`, then run the command again).
+
+> **Windows note:** if the log says `Reloading...` but your change doesn't show up (no
+> `Application startup complete` line follows), the auto-reload got stuck. Press `Ctrl+C` and
+> start the server again.
 
 ## API endpoints
 
