@@ -1,10 +1,14 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 import { ChatMessage } from '../../models/chat.model';
+import { DurationPipe } from '../../pipes/duration.pipe';
 
-/** One message: a bubble with the text, plus a status line under replies. */
+/** One message: a bubble with the text, plus a line of details under each reply. */
 @Component({
   selector: 'app-message-bubble',
+  // DecimalPipe is Angular's `number` pipe: 1234 → "1,234".
+  imports: [DecimalPipe, DurationPipe],
   templateUrl: './message-bubble.component.html',
   styleUrl: './message-bubble.component.scss',
 })

@@ -1,6 +1,9 @@
 // Four rows: header, system prompt, messages (all the space left), text box.
 .chat-app {
   display: grid;
+  // minmax(0, 1fr) lets the column shrink on narrow screens instead of
+  // stretching to fit the longest line of text.
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto 1fr auto;
   height: 100dvh;
   max-width: 880px;

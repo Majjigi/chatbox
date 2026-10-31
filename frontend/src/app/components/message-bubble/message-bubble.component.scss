@@ -68,12 +68,17 @@
   margin: 6px 6px 0;
   color: var(--text-muted);
   font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
 
-  // A dot between items: "Gemini · Stopped"
-  span + span::before {
+  // A dot between items: "Gemini · 12 in / 80 out tokens · 1.52 s"
+  > span + span::before {
     content: '·';
     margin: 0 6px;
   }
+}
+
+.first-token {
+  opacity: 0.8;
 }
 
 .meta-error {

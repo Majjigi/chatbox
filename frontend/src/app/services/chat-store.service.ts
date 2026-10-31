@@ -119,7 +119,15 @@ export class ChatStoreService {
         this.updateMessage(replyId, (message) => ({ ...message, content: message.content + event.text }));
         break;
       case 'done':
-        this.finishReply(replyId, { status: 'done' });
+        this.finishReply(replyId, {
+          status: 'done',
+          stats: {
+            inputTokens: event.input_tokens,
+            outputTokens: event.output_tokens,
+            totalMs: event.total_ms,
+            firstTokenMs: event.first_token_ms,
+          },
+        });
         break;
       case 'error':
         this.finishReply(replyId, { status: 'error', error: event.message });

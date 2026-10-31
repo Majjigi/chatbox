@@ -58,6 +58,18 @@ describe('ChatStoreService', () => {
     expect(store.isStreaming()).toBe(false);
   });
 
+  it('keeps the token counts and timings from the done event', () => {
+    store.send('Hi');
+    finishReply();
+
+    expect(store.messages()[1].stats).toEqual({
+      inputTokens: 4,
+      outputTokens: 2,
+      totalMs: 900,
+      firstTokenMs: 300,
+    });
+  });
+
   it('sends the earlier conversation along with a new question', () => {
     store.send('Hi');
     events.next({ type: 'token', text: 'Hello!' });

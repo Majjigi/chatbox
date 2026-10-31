@@ -10,11 +10,24 @@
     </div>
   }
 
-  <!-- Under each reply: which model wrote it. -->
+  <!-- Under each reply: which model wrote it, how many tokens it used, and how long it took. -->
   @if (message().role === 'assistant') {
     <p class="meta">
       @if (message().modelLabel) {
         <span>{{ message().modelLabel }}</span>
+      }
+      @if (message().stats; as stats) {
+        @if (stats.inputTokens !== null && stats.outputTokens !== null) {
+          <span title="Input = what the model read (system prompt + conversation). Output = what it wrote.">
+            {{ stats.inputTokens | number }} in / {{ stats.outputTokens | number }} out tokens
+          </span>
+        }
+        <span title="Total time from sending the question to the end of the reply">
+          {{ stats.totalMs | duration }}
+          @if (stats.firstTokenMs !== null) {
+            <span class="first-token">(first word after {{ stats.firstTokenMs | duration }})</span>
+          }
+        </span>
       }
       @if (message().status === 'stopped') {
         <span>Stopped</span>

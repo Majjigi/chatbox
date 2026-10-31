@@ -58,4 +58,18 @@ export interface ChatMessage {
   error?: string;
   /** Which model wrote this reply (you can switch models mid-conversation). */
   modelLabel?: string;
+  /** Token counts and timings, shown under a finished reply. */
+  stats?: ReplyStats;
+}
+
+/** The numbers shown under each answer (from the backend's "done" event). */
+export interface ReplyStats {
+  /** Tokens the model read: system prompt + the whole conversation. */
+  inputTokens: number | null;
+  /** Tokens the model wrote: the reply (plus any hidden "thinking"). */
+  outputTokens: number | null;
+  /** Time from sending the question to the end of the reply. */
+  totalMs: number;
+  /** Time until the first word appeared. */
+  firstTokenMs: number | null;
 }

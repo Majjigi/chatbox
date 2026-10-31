@@ -21,6 +21,8 @@ frontend/src/
 │   │   └── chat-store.service.ts  # Chat state (signals) + actions: send, stop, clear
 │   ├── models/
 │   │   └── chat.model.ts          # TypeScript types for messages and API data
+│   ├── pipes/
+│   │   └── duration.pipe.ts       # 2410 → "2.41 s" (used under each answer)
 │   └── utils/
 │       └── sse-parser.ts          # Splits the streamed text into events
 ├── environments/                  # Backend URL for development / production
