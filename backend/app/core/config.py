@@ -21,13 +21,18 @@ class Settings(BaseSettings):
 
     # --- AI models -------------------------------------------------------
     # A model with an empty API key still shows in the dropdown, greyed out.
-    gemini_api_key: str = ""
-    # "gemini-flash-latest" always points at Google's newest Flash model.
-    gemini_model: str = "gemini-flash-latest"
+    groq_api_key: str = ""
+    groq_model: str = "openai/gpt-oss-120b"
     anthropic_api_key: str = ""
     claude_model: str = "claude-opus-5-5"
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        # Skip lines in .env that aren't settings here (e.g. a leftover GEMINI_API_KEY)
+        # instead of refusing to start.
+        extra="ignore",
+    )
 
 
 # One shared instance — other files do `from app.core.config import settings`.

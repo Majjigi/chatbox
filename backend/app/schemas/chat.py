@@ -53,7 +53,7 @@ class ModelInfo(BaseModel):
 
     id: str
     label: str
-    provider: Literal["demo", "gemini", "claude"]
+    provider: Literal["demo", "groq", "claude"]
     # False when the model's API key isn't set in .env — the dropdown greys it out.
     available: bool
 

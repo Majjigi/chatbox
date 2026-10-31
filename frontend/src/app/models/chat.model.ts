@@ -5,7 +5,7 @@
 export interface ModelInfo {
   id: string;
   label: string;
-  provider: 'demo' | 'gemini' | 'claude';
+  provider: 'demo' | 'groq' | 'claude';
   /** False when the backend has no API key for it. */
   available: boolean;
 }

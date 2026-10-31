@@ -28,6 +28,6 @@ def instant_demo_model(monkeypatch):
 @pytest.fixture(autouse=True)
 def no_api_keys(monkeypatch):
     """Ignore any real keys in your .env, so tests never call (or pay for) a real model."""
-    monkeypatch.setattr(settings, "gemini_api_key", "")
+    monkeypatch.setattr(settings, "groq_api_key", "")
     monkeypatch.setattr(settings, "anthropic_api_key", "")
     monkeypatch.setattr(registry, "_providers", {})

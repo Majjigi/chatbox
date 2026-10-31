@@ -1,5 +1,5 @@
 fastapi>=0.115            # the web framework
 uvicorn[standard]>=0.32   # the server that runs the FastAPI app
 pydantic-settings>=2.6    # reads settings (like API keys) from the .env file
-google-genai>=2.0         # official SDK for Google's Gemini models
+groq>=1.0                 # official SDK for models hosted by Groq
 anthropic>=2.0            # official SDK for Anthropic's Claude models

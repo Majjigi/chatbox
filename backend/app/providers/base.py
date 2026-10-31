@@ -2,7 +2,7 @@
 The common shape that every model "provider" follows.
 
 A provider is the piece of code that knows how to talk to one AI service
-(Gemini, Claude, or the offline demo). They all offer the same method,
+(Groq, Claude, or the offline demo). They all offer the same method,
 `stream_reply(...)`, so the chat route can use any of them without knowing
 which one it has. Each provider file translates that one call into its own SDK.
 """

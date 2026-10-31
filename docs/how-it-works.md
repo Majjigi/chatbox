@@ -17,16 +17,16 @@ flowchart LR
     subgraph Server["Backend — FastAPI (port 8000)"]
         Route["chat.py<br/>POST /api/chat/stream"]
         Registry["registry.py<br/>model id → provider"]
-        Providers["Providers<br/>Gemini · Claude · Demo"]
+        Providers["Providers<br/>Groq · Claude · Demo"]
         Route --> Registry --> Providers
     end
 
     Api -- "question + history + system prompt (JSON)" --> Route
     Route -- "token, token, …, done (Server-Sent Events)" --> Api
-    Providers <-- "official SDKs, API keys from .env" --> Cloud["Google Gemini API<br/>Anthropic Claude API"]
+    Providers <-- "official SDKs, API keys from .env" --> Cloud["Groq API<br/>Anthropic Claude API"]
 ```
 
-- The **browser** never talks to Google or Anthropic directly and never sees an API key.
+- The **browser** never talks to Groq or Anthropic directly and never sees an API key.
 - The **backend** hides the differences between models behind one method, `stream_reply()`.
 - Text flows back **while it's being written**, as a stream of small events.
 
@@ -39,7 +39,7 @@ sequenceDiagram
     participant Store as ChatStoreService
     participant Api as ChatApiService
     participant Route as FastAPI chat.py
-    participant Provider as GeminiProvider / ClaudeProvider
+    participant Provider as GroqProvider / ClaudeProvider
     participant Model as AI model
 
     You->>Input: type "Hi" + Enter
@@ -99,7 +99,7 @@ Each provider converts our messages to its SDK's format and streams the reply:
 
 | Provider | SDK call | Notes |
 | -------- | -------- | ----- |
-| `GeminiProvider` | `client.aio.models.generate_content_stream()` | renames role `assistant` → `model` |
+| `GroqProvider` | `client.chat.completions.create(stream=True)` | system prompt goes in as the first message |
 | `ClaudeProvider` | `client.beta.messages.stream()` | adds safety-filter fallbacks on newer models |
 | `DemoProvider` | none — canned text | no API key needed; used by tests |
 
@@ -149,7 +149,7 @@ closes the connection to the model. Nothing more is generated or billed.
 | ----------------- | ------- |
 | The look (colours, dark mode) | `frontend/src/styles.scss` (tokens), each component's `.scss` |
 | The default system prompt | `systemPrompt` in `frontend/src/app/services/chat-store.service.ts` |
-| Which Gemini / Claude model is used | `GEMINI_MODEL` / `CLAUDE_MODEL` in `backend/.env` |
+| Which Groq / Claude model is used | `GROQ_MODEL` / `CLAUDE_MODEL` in `backend/.env` |
 | How Claude is called (effort, max length) | `build_request()` in `backend/app/providers/claude_provider.py` |
 | The order of models in the dropdown | `list_models()` in `backend/app/providers/registry.py` |
 | The streaming format | `schemas/chat.py` (backend) and `models/chat.model.ts` (frontend) |

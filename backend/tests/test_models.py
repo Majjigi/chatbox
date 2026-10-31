@@ -17,16 +17,17 @@ def test_models_list_includes_the_demo_model(client):
 def test_models_without_an_api_key_are_unavailable(client):
     models = client.get("/api/models").json()
 
-    assert find(models, "gemini")["available"] is False
+    assert find(models, "groq")["available"] is False
     assert find(models, "claude")["available"] is False
 
 
 def test_models_with_an_api_key_are_available(client, monkeypatch):
-    monkeypatch.setattr(settings, "gemini_api_key", "test-key")
+    monkeypatch.setattr(settings, "groq_api_key", "test-key")
     monkeypatch.setattr(settings, "anthropic_api_key", "test-key")
 
     models = client.get("/api/models").json()
 
-    assert find(models, "gemini")["available"] is True
+    assert find(models, "groq")["available"] is True
+    assert find(models, "groq")["id"] == settings.groq_model
     assert find(models, "claude")["available"] is True
     assert find(models, "claude")["id"] == settings.claude_model

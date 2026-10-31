@@ -14,7 +14,7 @@ backend/
 │   │   └── chat.py              # Shapes of requests, responses and stream events
 │   ├── providers/               # One class per AI service, all with the same method
 │   │   ├── base.py              # ChatProvider: the common template
-│   │   ├── gemini_provider.py   # Google Gemini (google-genai SDK)
+│   │   ├── groq_provider.py     # Groq-hosted models, e.g. gpt-oss (groq SDK)
 │   │   ├── claude_provider.py   # Anthropic Claude (anthropic SDK)
 │   │   ├── demo_provider.py     # Offline pretend model (no API key needed)
 │   │   └── registry.py          # The list of models + "give me the provider for X"
@@ -60,11 +60,11 @@ Open `backend/.env` and paste in a key for each model you want to use:
 
 | Setting | Where to get it |
 | ------- | --------------- |
-| `GEMINI_API_KEY` | https://aistudio.google.com/apikey |
+| `GROQ_API_KEY` | https://console.groq.com/keys (free plan) |
 | `ANTHROPIC_API_KEY` | https://platform.claude.com |
 
 A model without a key stays in the dropdown but is greyed out. The **Demo model** always works,
-with no key at all. You can also change which model is used with `GEMINI_MODEL` and
+with no key at all. You can also change which model is used with `GROQ_MODEL` and
 `CLAUDE_MODEL`.
 
 ## Run the server

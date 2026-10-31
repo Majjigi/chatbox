@@ -100,4 +100,4 @@ Swagger page at http://localhost:8000/docs (it shows the result only once it's c
 
 ## Next
 
-[Phase 3](phase-3-real-models.md) adds Gemini and Claude as providers.
+[Phase 3](phase-3-real-models.md) adds Gemini and Claude as providers (Gemini was later swapped for Groq in [phase 8](phase-8-groq-instead-of-gemini.md)).

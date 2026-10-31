@@ -1,5 +1,7 @@
 # Phase 6 — Token count and time taken under each answer
 
+> **Update:** [Phase 8](phase-8-groq-instead-of-gemini.md) later replaced Gemini with Groq. This page describes the code as it was at the `phase-6` tag.
+
 **Goal:** under every answer, show how many tokens it used and how long it took, so you can
 compare models.
 

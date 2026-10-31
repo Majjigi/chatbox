@@ -1,5 +1,7 @@
 # Phase 3 — Real AI models: Gemini and Claude
 
+> **Update:** [Phase 8](phase-8-groq-instead-of-gemini.md) later replaced Gemini with Groq. This page describes the code as it was at the `phase-3` tag.
+
 **Goal:** plug two real language models into the streaming endpoint from phase 2, so the same
 `POST /api/chat/stream` can be answered by Google's Gemini or Anthropic's Claude.
 

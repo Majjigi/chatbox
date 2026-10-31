@@ -9,7 +9,7 @@ from app.core.config import settings
 from app.providers.base import ChatProvider
 from app.providers.claude_provider import ClaudeProvider
 from app.providers.demo_provider import DemoProvider
-from app.providers.gemini_provider import GeminiProvider
+from app.providers.groq_provider import GroqProvider
 from app.schemas.chat import ModelInfo
 
 DEMO_MODEL_ID = "demo"
@@ -30,10 +30,10 @@ def list_models() -> list[ModelInfo]:
     """
     return [
         ModelInfo(
-            id=settings.gemini_model,
-            label=f"Gemini · {settings.gemini_model}",
-            provider="gemini",
-            available=bool(settings.gemini_api_key),
+            id=settings.groq_model,
+            label=f"Groq · {settings.groq_model}",
+            provider="groq",
+            available=bool(settings.groq_api_key),
         ),
         ModelInfo(
             id=settings.claude_model,
@@ -66,8 +66,8 @@ def get_provider(model_id: str) -> ChatProvider:
 
 
 def _create_provider(model: ModelInfo) -> ChatProvider:
-    if model.provider == "gemini":
-        return GeminiProvider(api_key=settings.gemini_api_key, model_id=model.id)
+    if model.provider == "groq":
+        return GroqProvider(api_key=settings.groq_api_key, model_id=model.id)
     if model.provider == "claude":
         return ClaudeProvider(api_key=settings.anthropic_api_key, model_id=model.id)
     if model.provider == "demo":

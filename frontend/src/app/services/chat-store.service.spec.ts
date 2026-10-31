@@ -6,7 +6,7 @@ import { ChatApiService } from './chat-api.service';
 import { ChatStoreService } from './chat-store.service';
 
 const MODELS: ModelInfo[] = [
-  { id: 'gemini-flash-latest', label: 'Gemini', provider: 'gemini', available: false },
+  { id: 'openai/gpt-oss-120b', label: 'Groq', provider: 'groq', available: false },
   { id: 'demo', label: 'Demo model (offline)', provider: 'demo', available: true },
 ];
 
@@ -85,12 +85,12 @@ describe('ChatStoreService', () => {
   });
 
   it('sends the chosen model and the system prompt', () => {
-    store.selectModel('gemini-flash-latest');
+    store.selectModel('openai/gpt-oss-120b');
     store.systemPrompt.set('Talk like a pirate');
 
     store.send('Hi');
 
-    expect(sentRequests[0].model).toBe('gemini-flash-latest');
+    expect(sentRequests[0].model).toBe('openai/gpt-oss-120b');
     expect(sentRequests[0].system_prompt).toBe('Talk like a pirate');
   });
 

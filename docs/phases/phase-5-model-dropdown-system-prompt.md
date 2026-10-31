@@ -1,5 +1,7 @@
 # Phase 5 — Model dropdown and system prompt box
 
+> **Update:** [Phase 8](phase-8-groq-instead-of-gemini.md) later replaced Gemini with Groq. This page describes the code as it was at the `phase-5` tag.
+
 **Goal:** let the user choose which model answers, and steer it with a system prompt.
 
 ## What was built

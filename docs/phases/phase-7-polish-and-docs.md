@@ -43,3 +43,7 @@ Recordings go in `recordings/`, which `.gitignore` keeps out of the repo.
 - [ ] The system prompt changes the answers
 - [ ] Token counts and time appear under each finished answer
 - [ ] Stop cuts a reply off, and the label under it says "Stopped"
+
+## Next
+
+[Phase 8](phase-8-groq-instead-of-gemini.md) swaps Gemini for Groq, which has a free API key.

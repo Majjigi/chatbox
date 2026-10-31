@@ -70,7 +70,7 @@
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
 
-  // A dot between items: "Gemini · 12 in / 80 out tokens · 1.52 s"
+  // A dot between items: "Groq · 12 in / 80 out tokens · 1.52 s"
   > span + span::before {
     content: '·';
     margin: 0 6px;
