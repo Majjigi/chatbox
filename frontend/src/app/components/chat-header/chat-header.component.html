@@ -5,9 +5,25 @@
   </div>
 
   <div class="controls">
-    @if (store.selectedModel(); as model) {
-      <span class="model-badge">{{ model.label }}</span>
-    }
+    <!-- The model dropdown. Models without an API key are listed but can't be picked. -->
+    <select
+      #picker
+      class="model-select"
+      aria-label="Model"
+      [disabled]="store.isStreaming() || store.models().length === 0"
+      (change)="store.selectModel(picker.value)"
+    >
+      @for (model of store.models(); track model.id) {
+        <option
+          [value]="model.id"
+          [selected]="model.id === store.selectedModelId()"
+          [disabled]="!model.available"
+        >
+          {{ model.label }}{{ model.available ? '' : ' (no API key)' }}
+        </option>
+      }
+    </select>
+
     <button
       type="button"
       class="button-ghost"

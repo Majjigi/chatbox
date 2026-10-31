@@ -26,7 +26,7 @@ git checkout main      # back to the finished app
 | [2](docs/phases/phase-2-streaming-demo-model.md) | Streaming endpoint with an offline demo model | ✅ |
 | [3](docs/phases/phase-3-real-models.md) | Real AI models: Gemini and Claude | ✅ |
 | [4](docs/phases/phase-4-angular-chat-screen.md) | Angular chat screen: bubbles, text box, live streaming | ✅ |
-| 5 | Model dropdown and system prompt box | ⏳ |
+| [5](docs/phases/phase-5-model-dropdown-system-prompt.md) | Model dropdown and system prompt box | ✅ |
 | 6 | Token count and time taken under each answer | ⏳ |
 | 7 | Polish and full documentation | ⏳ |
 

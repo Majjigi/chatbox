@@ -1,0 +1,57 @@
+.system-prompt {
+  margin: 12px 20px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+
+  &[open] summary .preview {
+    visibility: hidden;
+  }
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  .label {
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  // One line of the prompt, cut off with "…" if it's too long.
+  .preview {
+    overflow: hidden;
+    color: var(--text-muted);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+textarea {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 0 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  resize: vertical;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+}
+
+.hint {
+  margin: 6px 14px 12px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}

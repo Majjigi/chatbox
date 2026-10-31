@@ -72,6 +72,22 @@ describe('ChatStoreService', () => {
     ]);
   });
 
+  it('sends the chosen model and the system prompt', () => {
+    store.selectModel('gemini-flash-latest');
+    store.systemPrompt.set('Talk like a pirate');
+
+    store.send('Hi');
+
+    expect(sentRequests[0].model).toBe('gemini-flash-latest');
+    expect(sentRequests[0].system_prompt).toBe('Talk like a pirate');
+  });
+
+  it('remembers which model wrote each reply', () => {
+    store.send('Hi');
+
+    expect(store.messages()[1].modelLabel).toBe('Demo model (offline)');
+  });
+
   it('shows an error event under the reply', () => {
     store.send('Hi');
     events.next({ type: 'error', message: 'Rate limit reached.' });

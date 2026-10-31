@@ -18,6 +18,8 @@ export class ChatStoreService {
   // ---- State -------------------------------------------------------------
   readonly models = signal<ModelInfo[]>([]);
   readonly selectedModelId = signal('');
+  /** Instructions the model follows for every reply. Sent with each message. */
+  readonly systemPrompt = signal('You are a helpful, friendly assistant. Keep answers short and clear.');
   readonly messages = signal<ChatMessage[]>([]);
   readonly isStreaming = signal(false);
   /** Set when the model list can't be loaded (usually: backend not running). */
@@ -46,6 +48,11 @@ export class ChatStoreService {
     });
   }
 
+  /** Switch the model used for the next message. */
+  selectModel(modelId: string): void {
+    this.selectedModelId.set(modelId);
+  }
+
   /** Send a question and stream the reply into a new assistant message. */
   send(text: string): void {
     const question = text.trim();
@@ -55,12 +62,18 @@ export class ChatStoreService {
 
     const request: ChatRequest = {
       model: this.selectedModelId(),
-      system_prompt: '',
+      system_prompt: this.systemPrompt(),
       messages: [...toHistory(this.messages()), { role: 'user', content: question }],
     };
 
     // Show the question, plus an empty reply bubble that fills up as text arrives.
-    const reply: ChatMessage = { id: this.nextId++, role: 'assistant', content: '', status: 'streaming' };
+    const reply: ChatMessage = {
+      id: this.nextId++,
+      role: 'assistant',
+      content: '',
+      status: 'streaming',
+      modelLabel: this.selectedModel()?.label,
+    };
     this.messages.update((list) => [
       ...list,
       { id: this.nextId++, role: 'user', content: question, status: 'done' },

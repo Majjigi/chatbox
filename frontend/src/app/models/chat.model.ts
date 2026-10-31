@@ -56,4 +56,6 @@ export interface ChatMessage {
   /** streaming = text is still arriving; stopped = the user pressed Stop. */
   status: 'streaming' | 'done' | 'stopped' | 'error';
   error?: string;
+  /** Which model wrote this reply (you can switch models mid-conversation). */
+  modelLabel?: string;
 }

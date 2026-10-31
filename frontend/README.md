@@ -11,7 +11,8 @@ frontend/src/
 │   ├── app.component.*            # The page layout: header, messages, text box
 │   ├── app.config.ts              # App-wide providers (HttpClient)
 │   ├── components/
-│   │   ├── chat-header/           # App name, model in use, "New chat"
+│   │   ├── chat-header/           # App name, model dropdown, "New chat"
+│   │   ├── system-prompt/         # Fold-out box for the system prompt
 │   │   ├── message-list/          # Scrolling list of messages + empty screen
 │   │   ├── message-bubble/        # One message bubble
 │   │   └── chat-input/            # Text box + Send / Stop

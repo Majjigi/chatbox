@@ -68,6 +68,12 @@
   margin: 6px 6px 0;
   color: var(--text-muted);
   font-size: 0.8rem;
+
+  // A dot between items: "Gemini · Stopped"
+  span + span::before {
+    content: '·';
+    margin: 0 6px;
+  }
 }
 
 .meta-error {

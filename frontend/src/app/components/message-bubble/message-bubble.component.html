@@ -1,16 +1,27 @@
 <article class="message" [class.from-user]="message().role === 'user'">
-  <div class="bubble">
-    @if (message().content) {
+  @if (message().content) {
+    <div class="bubble">
       <!-- Kept on one line: the text keeps its line breaks, so extra spaces here would show. -->
       <p class="text">{{ message().content }}@if (message().status === 'streaming') {<span class="cursor" aria-hidden="true"></span>}</p>
-    } @else if (message().status === 'streaming') {
+    </div>
+  } @else if (message().status === 'streaming') {
+    <div class="bubble">
       <span class="typing" aria-label="Writing a reply"><span></span><span></span><span></span></span>
-    }
-  </div>
+    </div>
+  }
 
-  @if (message().status === 'error') {
-    <p class="meta meta-error" role="alert">{{ message().error }}</p>
-  } @else if (message().status === 'stopped') {
-    <p class="meta">Stopped</p>
+  <!-- Under each reply: which model wrote it. -->
+  @if (message().role === 'assistant') {
+    <p class="meta">
+      @if (message().modelLabel) {
+        <span>{{ message().modelLabel }}</span>
+      }
+      @if (message().status === 'stopped') {
+        <span>Stopped</span>
+      }
+    </p>
+    @if (message().status === 'error') {
+      <p class="meta meta-error" role="alert">{{ message().error }}</p>
+    }
   }
 </article>

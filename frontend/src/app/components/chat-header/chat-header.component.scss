@@ -35,10 +35,20 @@
   gap: 8px;
 }
 
-.model-badge {
-  padding: 5px 10px;
+.model-select {
+  max-width: 260px;
+  padding: 7px 10px;
   border: 1px solid var(--border);
   border-radius: 999px;
-  color: var(--text-muted);
-  font-size: 0.85rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
 }

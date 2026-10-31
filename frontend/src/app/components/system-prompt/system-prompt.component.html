@@ -1,0 +1,20 @@
+<!-- <details> is a built-in HTML element that folds open and closed when you click its <summary>. -->
+<details class="system-prompt">
+  <summary>
+    <span class="label">System prompt</span>
+    <span class="preview">{{ store.systemPrompt() || 'None' }}</span>
+  </summary>
+
+  <textarea
+    #box
+    rows="3"
+    aria-label="System prompt"
+    placeholder="e.g. You are a pirate. Answer every question in one sentence."
+    [value]="store.systemPrompt()"
+    (input)="store.systemPrompt.set(box.value)"
+  ></textarea>
+  <p class="hint">
+    The model follows these instructions for every reply. Changes apply from the next message you
+    send.
+  </p>
+</details>
