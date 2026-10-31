@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterator
 
 from app.api.routes import chat
+from app.core.config import settings
 from app.providers.base import ChatChunk, ChatProvider, ProviderError
 from tests.helpers import parse_sse
 
@@ -50,6 +51,13 @@ def test_unknown_model_returns_404(client):
     response = ask(client, "Hi", model="no-such-model")
 
     assert response.status_code == 404
+
+
+def test_model_without_api_key_returns_400(client):
+    response = ask(client, "Hi", model=settings.claude_model)
+
+    assert response.status_code == 400
+    assert "API key" in response.json()["detail"]
 
 
 def test_last_message_must_be_from_user(client):

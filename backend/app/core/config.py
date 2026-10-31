@@ -19,6 +19,14 @@ class Settings(BaseSettings):
     # Websites allowed to call this API from the browser (the Angular dev server).
     cors_origins: list[str] = ["http://localhost:4200"]
 
+    # --- AI models -------------------------------------------------------
+    # A model with an empty API key still shows in the dropdown, greyed out.
+    gemini_api_key: str = ""
+    # "gemini-flash-latest" always points at Google's newest Flash model.
+    gemini_model: str = "gemini-flash-latest"
+    anthropic_api_key: str = ""
+    claude_model: str = "claude-opus-5-5"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 

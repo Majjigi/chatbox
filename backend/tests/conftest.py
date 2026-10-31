@@ -8,8 +8,9 @@ by naming it as a parameter, e.g. `def test_something(client): ...`.
 import pytest
 from fastapi.testclient import TestClient
 
+from app.core.config import settings
 from app.main import app
-from app.providers import demo_provider
+from app.providers import demo_provider, registry
 
 
 @pytest.fixture
@@ -22,3 +23,11 @@ def client() -> TestClient:
 def instant_demo_model(monkeypatch):
     """Make the demo model reply without its pause between words, so tests run fast."""
     monkeypatch.setattr(demo_provider, "WORD_DELAY_SECONDS", 0)
+
+
+@pytest.fixture(autouse=True)
+def no_api_keys(monkeypatch):
+    """Ignore any real keys in your .env, so tests never call (or pay for) a real model."""
+    monkeypatch.setattr(settings, "gemini_api_key", "")
+    monkeypatch.setattr(settings, "anthropic_api_key", "")
+    monkeypatch.setattr(registry, "_providers", {})

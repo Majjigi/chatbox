@@ -1,12 +1,15 @@
 """
 The list of models the app offers, and a way to get the provider for one of them.
 
-To add another model, write a provider class (see demo_provider.py) and add it
-to `list_models()` and `_create_provider()` below.
+To add another model (e.g. OpenAI), write a provider class like the ones in this
+folder, then add it to `list_models()` and `_create_provider()` below.
 """
 
+from app.core.config import settings
 from app.providers.base import ChatProvider
+from app.providers.claude_provider import ClaudeProvider
 from app.providers.demo_provider import DemoProvider
+from app.providers.gemini_provider import GeminiProvider
 from app.schemas.chat import ModelInfo
 
 DEMO_MODEL_ID = "demo"
@@ -21,8 +24,23 @@ class ModelUnavailableError(Exception):
 
 
 def list_models() -> list[ModelInfo]:
-    """Every model for the dropdown, in display order."""
+    """Every model for the dropdown, in display order.
+
+    The app pre-selects the first available one, so real models come first.
+    """
     return [
+        ModelInfo(
+            id=settings.gemini_model,
+            label=f"Gemini · {settings.gemini_model}",
+            provider="gemini",
+            available=bool(settings.gemini_api_key),
+        ),
+        ModelInfo(
+            id=settings.claude_model,
+            label=f"Claude · {settings.claude_model}",
+            provider="claude",
+            available=bool(settings.anthropic_api_key),
+        ),
         ModelInfo(id=DEMO_MODEL_ID, label="Demo model (offline)", provider="demo", available=True),
     ]
 
@@ -48,6 +66,10 @@ def get_provider(model_id: str) -> ChatProvider:
 
 
 def _create_provider(model: ModelInfo) -> ChatProvider:
+    if model.provider == "gemini":
+        return GeminiProvider(api_key=settings.gemini_api_key, model_id=model.id)
+    if model.provider == "claude":
+        return ClaudeProvider(api_key=settings.anthropic_api_key, model_id=model.id)
     if model.provider == "demo":
         return DemoProvider()
     raise UnknownModelError(f"No provider for '{model.provider}'.")
