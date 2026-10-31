@@ -1,0 +1,97 @@
+// Global styles: colour tokens, page basics, and shared button styles.
+// Components use the tokens (var(--accent) etc.), so the whole look can be changed here.
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --border: #e2e4e8;
+  --text: #1d2026;
+  --text-muted: #6b7280;
+  --accent: #4f46e5;
+  --accent-alt: #0ea5e9;
+  --on-accent: #ffffff;
+  --focus-ring: rgb(79 70 229 / 0.2);
+  --danger: #dc2626;
+  --radius: 12px;
+
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+// Dark colours when the operating system is in dark mode.
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --surface: #1a1d23;
+    --border: #2c313a;
+    --text: #e7e9ec;
+    --text-muted: #9aa3af;
+    --accent: #6366f1;
+    --accent-alt: #38bdf8;
+    --focus-ring: rgb(99 102 241 / 0.3);
+    --danger: #f87171;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// ---- Shared buttons ------------------------------------------------------
+
+.button-primary,
+.button-secondary,
+.button-ghost {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.button-primary {
+  border: none;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button-secondary {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.button-ghost {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+
+  &:hover:not(:disabled) {
+    background: var(--surface);
+  }
+}

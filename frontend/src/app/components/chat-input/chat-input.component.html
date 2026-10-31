@@ -1,0 +1,21 @@
+<footer class="chat-input">
+  <form class="composer" (submit)="$event.preventDefault(); send()">
+    <textarea
+      #box
+      rows="1"
+      placeholder="Message ChatBox…"
+      aria-label="Your message"
+      autofocus
+      [value]="draft()"
+      (input)="draft.set(box.value)"
+      (keydown)="onKeydown($event)"
+    ></textarea>
+
+    @if (store.isStreaming()) {
+      <button type="button" class="button-secondary" (click)="store.stop()">Stop</button>
+    } @else {
+      <button type="submit" class="button-primary" [disabled]="!canSend()">Send</button>
+    }
+  </form>
+  <p class="hint">Enter to send · Shift + Enter for a new line</p>
+</footer>

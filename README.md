@@ -25,11 +25,12 @@ git checkout main      # back to the finished app
 | [1](docs/phases/phase-1-backend-foundation.md) | Backend foundation: FastAPI app, settings, CORS, health check | ✅ |
 | [2](docs/phases/phase-2-streaming-demo-model.md) | Streaming endpoint with an offline demo model | ✅ |
 | [3](docs/phases/phase-3-real-models.md) | Real AI models: Gemini and Claude | ✅ |
-| 4 | Angular chat screen: bubbles, text box, live streaming | ⏳ |
+| [4](docs/phases/phase-4-angular-chat-screen.md) | Angular chat screen: bubbles, text box, live streaming | ✅ |
 | 5 | Model dropdown and system prompt box | ⏳ |
 | 6 | Token count and time taken under each answer | ⏳ |
 | 7 | Polish and full documentation | ⏳ |
 
-## Run the backend
+## Run it
 
-See [backend/README.md](backend/README.md).
+1. Backend: see [backend/README.md](backend/README.md)
+2. Frontend: see [frontend/README.md](frontend/README.md)

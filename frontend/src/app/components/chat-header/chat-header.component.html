@@ -1,0 +1,20 @@
+<header class="chat-header">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <h1>ChatBox</h1>
+  </div>
+
+  <div class="controls">
+    @if (store.selectedModel(); as model) {
+      <span class="model-badge">{{ model.label }}</span>
+    }
+    <button
+      type="button"
+      class="button-ghost"
+      (click)="store.clearChat()"
+      [disabled]="store.messages().length === 0"
+    >
+      New chat
+    </button>
+  </div>
+</header>

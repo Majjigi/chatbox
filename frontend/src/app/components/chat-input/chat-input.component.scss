@@ -1,0 +1,40 @@
+.chat-input {
+  padding: 8px 20px 14px;
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+
+  &:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+}
+
+textarea {
+  flex: 1;
+  // Grow with the text, up to about 8 lines, then scroll.
+  field-sizing: content;
+  min-height: 24px;
+  max-height: 200px;
+  padding: 7px 8px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.hint {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}

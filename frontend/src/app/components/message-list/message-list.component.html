@@ -1,0 +1,29 @@
+<main #scroller class="message-list" (scroll)="onScroll()" [attr.aria-busy]="store.isStreaming()">
+  @if (store.loadError(); as error) {
+    <div class="notice" role="alert">
+      <p>{{ error }}</p>
+      <button type="button" class="button-ghost" (click)="store.loadModels()">Try again</button>
+    </div>
+  }
+
+  @for (message of store.messages(); track message.id) {
+    <app-message-bubble [message]="message" />
+  } @empty {
+    <div class="empty-state">
+      <h2>Start a conversation</h2>
+      <p>Ask anything. The reply streams in word by word.</p>
+      <div class="examples">
+        @for (example of examples; track example) {
+          <button
+            type="button"
+            class="example"
+            (click)="store.send(example)"
+            [disabled]="!store.selectedModelId()"
+          >
+            {{ example }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+</main>
