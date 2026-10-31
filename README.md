@@ -189,6 +189,9 @@ Save it in a `recordings/` folder (git ignores it). A 30-second script:
 | "Groq's free rate limit was reached" or "Groq error 413: Request too large" | Groq's free plan limits requests and tokens per minute. Wait a minute, or start a **New chat** (long conversations re-send more tokens) |
 | Changes to `.env` don't take effect | `.env` is only read at start-up — stop the backend (`Ctrl+C`) and start it again |
 | Code changes don't show up in the backend (Windows) | If the log says `Reloading...` but nothing follows, auto-reload got stuck: press `Ctrl+C` and start again |
+| `ModuleNotFoundError: No module named 'fastapi'` | The code ran with a Python that isn't the project's. Don't run `main.py` directly (e.g. with VS Code's ▷ button) — start the server with `uvicorn` from `backend/` with the virtual environment active, or run `.venv\Scripts\python.exe -m uvicorn app.main:app` (no activation needed). In VS Code, also pick the interpreter: **Python: Select Interpreter** → `backend\.venv` |
+| `Activate.ps1 cannot be loaded because running scripts is disabled` | Run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once in PowerShell, or skip activation and use `.venv\Scripts\python.exe -m uvicorn app.main:app` |
+| `npm` / `node` not recognized in VS Code's terminal | Node.js was installed after VS Code started — close and reopen VS Code |
 | `python` not found on Windows | Use `py` instead, or install Python from python.org |
 
 ## Run the tests

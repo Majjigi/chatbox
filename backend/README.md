@@ -69,9 +69,21 @@ with no key at all. You can also change which model is used with `GROQ_MODEL` an
 
 ## Run the server
 
+From the `backend/` folder, with the virtual environment active:
+
 ```bash
 uvicorn app.main:app --reload --reload-dir app
 ```
+
+Without activating it, the same thing works on Windows as:
+
+```bash
+.venv\Scripts\python.exe -m uvicorn app.main:app --reload --reload-dir app
+```
+
+> **Don't run `app/main.py` directly** (e.g. with VS Code's ▷ "Run Python File" button). That
+> file only *creates* the app; `uvicorn` is the server that runs it. Running it with a Python
+> outside `.venv` also gives `ModuleNotFoundError: No module named 'fastapi'`.
 
 - Health check: http://localhost:8000/api/health → `{"status": "ok"}`
 - Interactive docs (Swagger): http://localhost:8000/docs — try every endpoint from the browser
