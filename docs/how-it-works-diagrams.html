@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How ChatBox works — diagrams</title>
+<style>
+:root{
+  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  --radius: 8px;
+  --page: #FAF9F5; --surface-1: #F1EFE8;
+  --text-primary: #2C2C2A; --text-secondary: #5F5E5A; --text-muted: #888780;
+  --text-accent: #534AB7; --text-warning: #854F0B;
+  --bg-accent: #EEEDFE; --border-accent: #7F77DD;
+  --border: #D3D1C7; --border-strong: #B4B2A9;
+  --arrow: #73726c; --reply: #1D9E75;
+  --purple-fill:#EEEDFE; --purple-stroke:#534AB7; --purple-title:#3C3489; --purple-sub:#534AB7;
+  --teal-fill:#E1F5EE; --teal-stroke:#0F6E56; --teal-title:#085041; --teal-sub:#0F6E56;
+  --gray-fill:#F1EFE8; --gray-stroke:#5F5E5A; --gray-title:#444441; --gray-sub:#5F5E5A;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --page: #1F1E1D; --surface-1: #2C2C2A;
+    --text-primary: #F1EFE8; --text-secondary: #B4B2A9; --text-muted: #888780;
+    --text-accent: #AFA9EC; --text-warning: #EF9F27;
+    --bg-accent: #3C3489; --border-accent: #7F77DD;
+    --border: #444441; --border-strong: #5F5E5A;
+    --arrow: #9c9a92; --reply: #5DCAA5;
+    --purple-fill:#3C3489; --purple-stroke:#AFA9EC; --purple-title:#CECBF6; --purple-sub:#AFA9EC;
+    --teal-fill:#085041; --teal-stroke:#5DCAA5; --teal-title:#9FE1CB; --teal-sub:#5DCAA5;
+    --gray-fill:#444441; --gray-stroke:#B4B2A9; --gray-title:#D3D1C7; --gray-sub:#B4B2A9;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--text-primary);font-family:var(--font-sans);line-height:1.6}
+main{max-width:760px;margin:0 auto;padding:40px 16px 64px}
+h1{font-size:24px;font-weight:600;margin:0 0 6px}
+h2{font-size:18px;font-weight:600;margin:40px 0 6px}
+p.lead{color:var(--text-secondary);margin:0 0 8px;font-size:15px}
+code{font-family:var(--font-mono);font-size:0.9em}
+.card{border:1px solid var(--border);border-radius:12px;padding:20px;background:transparent}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* SVG diagram */
+svg text{font-family:var(--font-sans)}
+svg .th{font-size:14px;font-weight:600;fill:var(--text-primary)}
+svg .ts{font-size:12px;fill:var(--text-secondary)}
+svg .frame{fill:none;stroke:var(--border-strong);stroke-width:1;stroke-dasharray:4 4}
+svg .arr{stroke:var(--arrow);stroke-width:1.5;fill:none}
+svg .reply{stroke:var(--reply);stroke-width:1.5;fill:none}
+svg .box{fill:var(--surface-1);stroke:var(--border-strong);stroke-width:1;stroke-dasharray:4 3}
+.c-purple>rect{fill:var(--purple-fill);stroke:var(--purple-stroke);stroke-width:0.75}
+.c-purple>.th{fill:var(--purple-title)} .c-purple>.ts{fill:var(--purple-sub)}
+.c-teal>rect{fill:var(--teal-fill);stroke:var(--teal-stroke);stroke-width:0.75}
+.c-teal>.th{fill:var(--teal-title)} .c-teal>.ts{fill:var(--teal-sub)}
+.c-gray>rect{fill:var(--gray-fill);stroke:var(--gray-stroke);stroke-width:0.75}
+.c-gray>.th{fill:var(--gray-title)} .c-gray>.ts{fill:var(--gray-sub)}
+
+/* Stepper */
+.cb-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px}
+.cb-grp{display:flex;flex-direction:column;gap:4px}
+.cb-gl{font-size:11px;color:var(--text-muted)}
+.cb-chips{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cb-chip{font-size:12px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-secondary);opacity:.5;transition:all .25s;white-space:nowrap}
+.cb-chip.on{opacity:1;background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.cb-sep{color:var(--text-muted);font-size:12px;padding-bottom:7px}
+.cb-card{border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-top:14px}
+.cb-card ul{margin:10px 0 0;padding-left:18px;font-size:14px;line-height:1.6}
+.cb-code{font-family:var(--font-mono);font-size:12px;background:var(--surface-1);border-radius:var(--radius);padding:10px 12px;margin-top:12px;white-space:pre-wrap;word-break:break-word}
+.cb-t{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.cb-t th{text-align:left;font-weight:600;color:var(--text-secondary);border-bottom:1px solid var(--border-strong);padding:6px 8px 6px 0}
+.cb-t td{border-bottom:1px solid var(--border);padding:6px 8px 6px 0;vertical-align:top}
+.cb-btn{font:inherit;font-size:13px;padding:6px 14px;border:1px solid var(--border-strong);border-radius:var(--radius);background:transparent;color:var(--text-primary);cursor:pointer}
+.cb-btn:disabled{opacity:.4;cursor:default}
+.cb-dot{width:9px;height:9px;border-radius:50%;background:var(--border-strong);border:none;padding:0;cursor:pointer}
+.cb-dot.on{background:var(--text-accent)}
+footer{margin-top:40px;font-size:12px;color:var(--text-muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>How ChatBox works</h1>
+<p class="lead">Visual companion to <code>docs/how-it-works.md</code>: the overall architecture, then one question followed from Enter to the stats line.</p>
+
+<h2>The big picture</h2>
+<p class="lead">The browser never talks to Groq or Anthropic directly. The backend hides model differences behind <code>stream_reply()</code>, and text flows back while it is being written.</p>
+<div class="card" id="architecture">
+<svg width="100%" viewBox="0 0 680 480" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>ChatBox architecture</title>
+<desc>The Angular browser app (components, ChatStoreService, ChatApiService) sends a JSON request to the FastAPI backend (chat.py, registry.py, providers), which calls the Groq or Claude API and streams tokens back to the browser as Server-Sent Events.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="var(--arrow)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="var(--reply)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect class="frame" x="40" y="20" width="600" height="118" rx="12"/>
+<text class="th" x="60" y="41" dominant-baseline="central">Browser · Angular (port 4200)</text>
+<g class="c-purple">
+<rect x="60" y="62" width="166" height="56" rx="8"/>
+<text class="th" x="143" y="80" text-anchor="middle" dominant-baseline="central">Components</text>
+<text class="ts" x="143" y="100" text-anchor="middle" dominant-baseline="central">Bubbles, input box</text>
+</g>
+<g class="c-purple">
+<rect x="257" y="62" width="166" height="56" rx="8"/>
+<text class="th" x="340" y="80" text-anchor="middle" dominant-baseline="central">ChatStoreService</text>
+<text class="ts" x="340" y="100" text-anchor="middle" dominant-baseline="central">State in signals</text>
+</g>
+<g class="c-purple">
+<rect x="454" y="62" width="166" height="56" rx="8"/>
+<text class="th" x="537" y="80" text-anchor="middle" dominant-baseline="central">ChatApiService</text>
+<text class="ts" x="537" y="100" text-anchor="middle" dominant-baseline="central">fetch + SseParser</text>
+</g>
+<line x1="230" y1="90" x2="253" y2="90" class="arr" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="427" y1="90" x2="450" y2="90" class="arr" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="510" y1="120" x2="510" y2="270" class="arr" marker-end="url(#ah)"/>
+<line x1="570" y1="272" x2="570" y2="122" class="reply" marker-end="url(#ahr)"/>
+<text class="ts" x="498" y="176" text-anchor="end" dominant-baseline="central">↓ Request: model, system prompt, full history (JSON)</text>
+<text class="ts" x="498" y="198" text-anchor="end" dominant-baseline="central">↑ Reply: token, token, …, done (Server-Sent Events)</text>
+<rect class="frame" x="40" y="232" width="600" height="118" rx="12"/>
+<text class="th" x="60" y="253" dominant-baseline="central">Backend · FastAPI (port 8000)</text>
+<g class="c-teal">
+<rect x="60" y="274" width="166" height="56" rx="8"/>
+<text class="th" x="143" y="292" text-anchor="middle" dominant-baseline="central">Providers</text>
+<text class="ts" x="143" y="312" text-anchor="middle" dominant-baseline="central">Groq, Claude, Demo</text>
+</g>
+<g class="c-teal">
+<rect x="257" y="274" width="166" height="56" rx="8"/>
+<text class="th" x="340" y="292" text-anchor="middle" dominant-baseline="central">registry.py</text>
+<text class="ts" x="340" y="312" text-anchor="middle" dominant-baseline="central">Model id → provider</text>
+</g>
+<g class="c-teal">
+<rect x="454" y="274" width="166" height="56" rx="8"/>
+<text class="th" x="537" y="292" text-anchor="middle" dominant-baseline="central">chat.py</text>
+<text class="ts" x="537" y="312" text-anchor="middle" dominant-baseline="central">POST /api/chat/stream</text>
+</g>
+<line x1="450" y1="302" x2="427" y2="302" class="arr" marker-end="url(#ah)"/>
+<line x1="253" y1="302" x2="230" y2="302" class="arr" marker-end="url(#ah)"/>
+<line x1="143" y1="334" x2="143" y2="396" class="arr" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text class="ts" x="155" y="372" dominant-baseline="central">Streaming SDK call</text>
+<g class="c-gray">
+<rect x="60" y="400" width="260" height="56" rx="8"/>
+<text class="th" x="190" y="418" text-anchor="middle" dominant-baseline="central">Groq API, Claude API</text>
+<text class="ts" x="190" y="438" text-anchor="middle" dominant-baseline="central">Official SDKs, keys in .env</text>
+</g>
+<rect class="box" x="350" y="400" width="290" height="56" rx="8"/>
+<text class="th" x="495" y="418" text-anchor="middle" dominant-baseline="central">API keys never reach the browser</text>
+<text class="ts" x="495" y="438" text-anchor="middle" dominant-baseline="central">One stream_reply() hides model differences</text>
+</svg>
+</div>
+
+<h2>One question, step by step</h2>
+<p class="lead">Use Next / Back (or the arrow keys) to follow a question through the app. The highlighted chips show which parts are working in each step.</p>
+<div class="card" id="stepper">
+<h3 class="sr-only">Step-by-step walkthrough of one ChatBox question, from pressing Enter to the stats line, plus what Stop does.</h3>
+<div class="cb-row">
+<div class="cb-grp"><span class="cb-gl">Person</span><div class="cb-chips"><span class="cb-chip" id="n-you">You</span></div></div>
+<span class="cb-sep">→</span>
+<div class="cb-grp"><span class="cb-gl">Browser · Angular</span><div class="cb-chips"><span class="cb-chip" id="n-input">ChatInput</span><span class="cb-chip" id="n-store">ChatStore</span><span class="cb-chip" id="n-api">ChatApi</span></div></div>
+<span class="cb-sep">→</span>
+<div class="cb-grp"><span class="cb-gl">Backend · FastAPI</span><div class="cb-chips"><span class="cb-chip" id="n-route">chat.py</span><span class="cb-chip" id="n-prov">Provider</span></div></div>
+<span class="cb-sep">→</span>
+<div class="cb-grp"><span class="cb-gl">Cloud</span><div class="cb-chips"><span class="cb-chip" id="n-model">AI model</span></div></div>
+</div>
+<div class="cb-card">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+<span id="cb-num" style="font-size:12px;color:var(--text-muted)"></span>
+<span id="cb-dir" style="font-size:12px;color:var(--text-accent)"></span>
+</div>
+<div id="cb-title" style="font-size:16px;font-weight:600;margin-top:4px"></div>
+<div id="cb-file" style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);margin-top:2px"></div>
+<div id="cb-loop" style="font-size:12px;color:var(--text-warning);margin-top:8px"></div>
+<ul id="cb-pts"></ul>
+<div id="cb-tbl"></div>
+<div id="cb-code" class="cb-code"></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px">
+<button class="cb-btn" id="cb-prev" aria-label="Previous step">← Back</button>
+<div id="cb-dots" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"></div>
+<button class="cb-btn" id="cb-next" aria-label="Next step">Next →</button>
+</div>
+</div>
+
+<footer>Generated from <code>docs/how-it-works.md</code>. If the code changes, update the markdown first, then this page.</footer>
+</main>
+
+<script>
+const S=[
+{t:"You press Enter",f:"chat-input.component.ts",on:["you","input"],d:"Request going out →",p:["<code>onKeydown()</code> catches Enter. Shift+Enter makes a new line instead.","It calls <code>store.send(text)</code>."],c:'store.send("Hi")'},
+{t:"The store prepares the request",f:"chat-store.service.ts",on:["store"],d:"Inside the browser",p:["Builds the request: the selected model, the system prompt, and the whole conversation so far (<code>toHistory()</code>) plus the new question.","Models remember nothing between requests, so the full history is re-sent every time.","Adds your message and an empty reply (status <code>streaming</code>) to the <code>messages</code> signal. Your bubble and a typing indicator appear instantly.","Subscribes to <code>api.streamChat(request)</code>."],c:"streamChat({ model, system_prompt, messages: [...history, \"Hi\"] })"},
+{t:"The request goes out",f:"chat-api.service.ts  +  utils/sse-parser.ts",on:["store","api","route"],d:"Request going out →",p:["<code>streamChat()</code> uses the browser's <code>fetch()</code>, not Angular's <code>HttpClient</code>, because HttpClient only hands over complete responses.","It reads the response body piece by piece as it arrives.","<code>SseParser</code> cuts the incoming text into events at each blank line."],c:"fetch  POST /api/chat/stream   (JSON body)"},
+{t:"The backend checks and routes it",f:"backend/app/api/routes/chat.py",on:["route"],d:"Request going out →",p:["FastAPI validates the JSON against <code>ChatRequest</code> (<code>schemas/chat.py</code>). Bad input → <code>422</code>.","<code>get_provider()</code> in <code>providers/registry.py</code> finds the provider for the model id. Unknown model → <code>404</code>. Model without an API key → <code>400</code>.","Starts a stopwatch and returns a <code>StreamingResponse</code> wrapping <code>stream_reply_events()</code>, an async generator."],c:"provider.stream_reply(messages, system_prompt)"},
+{t:"The provider talks to the model",f:"backend/app/providers/",on:["prov","model"],d:"Request going out →",l:1,p:["Each provider converts our messages to its SDK's format and streams the reply.","Each piece of text is yielded as <code>ChatChunk(text=...)</code>. The last chunk carries the token counts."],h:["Provider","SDK call","Notes"],m:[0,1],r:[["GroqProvider","client.chat.completions.create(stream=True)","System prompt goes in as the first message"],["ClaudeProvider","client.beta.messages.stream()","Adds safety-filter fallbacks on newer models"],["DemoProvider","None, canned text","No API key needed; used by tests"]],c:'AI model → "Hel" → ChatChunk(text="Hel")'},
+{t:"Text streams back",f:"stream_reply_events() in chat.py",on:["prov","route","api"],d:"← Reply streaming back",l:1,p:["For every chunk it yields one Server-Sent Event.","It records when the first text arrived, and at the end sends a <code>done</code> event with token counts and timings.","If anything fails mid-way it sends an <code>error</code> event instead. The HTTP status was already sent with the first event, so errors have to travel inside the stream."],c:'data: {"type": "token", "text": "Hel"}\n\ndata: {"type": "done", "input_tokens": 48, "output_tokens": 264, "total_ms": 2410, "first_token_ms": 620}\n\ndata: {"type": "error", "message": "…"}'},
+{t:"The screen updates",f:"chat-store.service.ts → components",on:["api","store","you"],d:"← Reply streaming back",l:1,p:["<code>handleEvent()</code> reacts to each event, as in the table below.","<code>messages</code> is a signal, so Angular redraws only what changed.","<code>MessageListComponent</code> scrolls down to follow the new text, unless you've scrolled up to read."],h:["Event","What the store does","What you see"],m:[0],r:[["token","Appends the text to the reply","The bubble grows, with a blinking cursor"],["done","Sets status done, saves stats","Cursor disappears; stats line appears"],["error","Sets status error, saves the message","Red error text under the reply"]]},
+{t:"Pressing Stop",f:"store.stop()",on:["you","input","store","api","route","prov","model"],d:"Cancel travels out → everything shuts down",p:["<code>store.stop()</code> unsubscribes from the stream.","The <code>AbortController</code> cancels the <code>fetch</code>.","FastAPI notices the browser left and stops the generator.","The provider's <code>async with</code> block closes the connection to the model. Nothing more is generated or billed."],c:"stop() → abort fetch → generator stops → model connection closed"},
+{t:"Where to change things",f:"Quick reference",on:[],d:"",p:[],h:["I want to change…","Look in"],m:[1],r:[["The look (colours, dark mode)","frontend/src/styles.scss (tokens), each component's .scss"],["The default system prompt","systemPrompt in frontend/src/app/services/chat-store.service.ts"],["Which Groq / Claude model is used","GROQ_MODEL / CLAUDE_MODEL in backend/.env"],["How Claude is called (effort, max length)","build_request() in backend/app/providers/claude_provider.py"],["The order of models in the dropdown","list_models() in backend/app/providers/registry.py"],["The streaming format","schemas/chat.py (backend), models/chat.model.ts (frontend)"],["What's shown under each answer","frontend/src/app/components/message-bubble/"]]}
+];
+const ids=["you","input","store","api","route","prov","model"];
+let i=0;
+const $=id=>document.getElementById(id);
+const dots=$("cb-dots");
+S.forEach((_,k)=>{const b=document.createElement("button");b.className="cb-dot";b.setAttribute("aria-label","Go to step "+(k+1));b.onclick=()=>{i=k;draw()};dots.appendChild(b)});
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function draw(){
+  const s=S[i];
+  ids.forEach(n=>$("n-"+n).classList.toggle("on",s.on.includes(n)));
+  $("cb-num").textContent=i<8?"Step "+(i+1)+" of 8":"Reference";
+  $("cb-dir").textContent=s.d;
+  $("cb-title").textContent=s.t;
+  $("cb-file").textContent=s.f;
+  $("cb-loop").textContent=s.l?"↻ Steps 5 to 7 repeat for every piece of text until the reply is done":"";
+  $("cb-loop").style.display=s.l?"block":"none";
+  $("cb-pts").innerHTML=s.p.map(x=>"<li>"+x+"</li>").join("");
+  $("cb-pts").style.display=s.p.length?"block":"none";
+  $("cb-tbl").innerHTML=s.r?'<table class="cb-t"><tr>'+s.h.map(x=>"<th>"+x+"</th>").join("")+"</tr>"+s.r.map(r=>"<tr>"+r.map((x,j)=>"<td"+((s.m||[]).includes(j)?' style="font-family:var(--font-mono);font-size:12px"':"")+">"+esc(x)+"</td>").join("")+"</tr>").join("")+"</table>":"";
+  $("cb-code").textContent=s.c||"";
+  $("cb-code").style.display=s.c?"block":"none";
+  [...dots.children].forEach((d,k)=>d.classList.toggle("on",k===i));
+  $("cb-prev").disabled=i===0;
+  $("cb-next").textContent=i===S.length-1?"Start over ↺":"Next →";
+}
+$("cb-prev").onclick=()=>{if(i>0){i--;draw()}};
+$("cb-next").onclick=()=>{i=(i+1)%S.length;draw()};
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){i=(i+1)%S.length;draw()}else if(e.key==="ArrowLeft"&&i>0){i--;draw()}});
+draw();
+</script>
+</body>
+</html>

@@ -5,6 +5,8 @@ and points to the file responsible for each step.
 
 ## The big picture
 
+![ChatBox architecture](images/how-it-works-architecture.png)
+
 ```mermaid
 flowchart LR
     subgraph Browser["Browser — Angular (port 4200)"]
