@@ -166,18 +166,7 @@ Interactive docs: http://localhost:8000/docs (while the backend is running).
    `frontend/src/app/models/chat.model.ts`.
 5. Add the SDK to `requirements.txt`. The frontend picks the new model up automatically.
 
-## Recording a 30-second demo
 
-On Windows 11, open the **Snipping Tool**, switch to **Record** (the video camera icon), and drag
-a box around the browser window — or press **Win + Alt + R** to record with the Xbox Game Bar.
-Save it in a `recordings/` folder (git ignores it). A 30-second script:
-
-| Time | Show |
-| ---- | ---- |
-| 0–5 s | The empty chat screen; open the model dropdown |
-| 5–15 s | Ask Groq a question — watch it stream; point at the stats line |
-| 15–25 s | Open the system prompt, type "You are a pirate", switch to Claude, ask a follow-up |
-| 25–30 s | Compare the two stats lines (tokens and time) |
 
 ## Troubleshooting
 
